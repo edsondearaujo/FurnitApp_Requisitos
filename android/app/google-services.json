@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "427370850874",
+    "firebase_url": "https://furnitapp-default-rtdb.firebaseio.com",
     "project_id": "furnitapp",
     "storage_bucket": "furnitapp.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "427370850874-baoq048dqbc3dol4kevosomt4dcop3j7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lostonmars.furnitapp",
+            "certificate_hash": "7a3ba79350cf0427fa890627d0f93a3320f2d6ca"
+          }
+        },
         {
           "client_id": "427370850874-593ijvuidt3dm6tfis112gggjs3nlvc2.apps.googleusercontent.com",
           "client_type": 3
