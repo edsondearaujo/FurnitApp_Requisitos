@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInBloc {
-
+  static FirebaseAuth auth = FirebaseAuth.instance;
 
   static TextEditingController emailController = TextEditingController();
   static TextEditingController passwordController = TextEditingController();
 
+  static Future<bool> signup({@required String email, @required password}) async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
 
   static String validateEmail(String email) {
     bool hasMach = RegExp(
@@ -18,7 +29,7 @@ class SignInBloc {
     }
   }
 
-  static String validatePassword( String password) {
+  static String validatePassword(String password) {
     bool isOk = password.length > 6;
     if (isOk) {
       return null;
@@ -26,6 +37,4 @@ class SignInBloc {
       return 'Senha muito pequena';
     }
   }
-
-
 }
