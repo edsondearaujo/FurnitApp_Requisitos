@@ -8,8 +8,7 @@ class SignIn extends StatefulWidget {
   _SignInState createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn>
-    with SingleTickerProviderStateMixin {
+class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   @override
@@ -39,13 +38,18 @@ class _SignInState extends State<SignIn>
             children: [
               Spacer(),
               Expanded(
-                flex: 2,
-                child: FormFieds(),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FormFieds(),
+                ),
               ),
               //buttons
               Expanded(
                 flex: 2,
-                child: SignInButton(),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: SignInButton(),
+                ),
               ),
             ],
           ),
