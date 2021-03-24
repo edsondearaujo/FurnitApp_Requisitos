@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'form_fields.dart';
+import 'signin_buttons.dart';
 
-class LoginPage extends StatefulWidget {
+class SignIn extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignInState createState() => _SignInState();
 }
 
-class _LoginPageState extends State<LoginPage>
+class _SignInState extends State<SignIn>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
@@ -44,26 +45,7 @@ class _LoginPageState extends State<LoginPage>
               //buttons
               Expanded(
                 flex: 2,
-                child: Column(
-                  children: [
-                    Container(
-                      width: 300,
-                      height: 70,
-                      decoration: BoxDecoration(
-                          color: Colors.red[900],
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          'Cadastrar',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                child: SignInButton(),
               ),
             ],
           ),
@@ -72,5 +54,3 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 }
-
-
