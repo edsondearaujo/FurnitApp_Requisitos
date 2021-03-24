@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'form_fields.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -37,21 +39,7 @@ class _LoginPageState extends State<LoginPage>
               Spacer(),
               Expanded(
                 flex: 2,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: 'email', border: OutlineInputBorder()),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: 'senha', border: OutlineInputBorder()),
-                      ),
-                    ),
-                  ],
-                ),
+                child: FormFieds(),
               ),
               //buttons
               Expanded(
@@ -84,3 +72,5 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 }
+
+
