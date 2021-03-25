@@ -4,6 +4,8 @@ import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/page/home_page.dart';
 
 class SignUpButton extends StatelessWidget {
+  final SignUpBloc signUpBloc = SignUpBloc();
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -15,7 +17,7 @@ class SignUpButton extends StatelessWidget {
             color: kSecondaryColor, borderRadius: BorderRadius.circular(10)),
         child: InkWell(
           onTap: () async {
-            bool isOk = await SignUpBloc.signup(
+            bool isOk = await signUpBloc.signup(
                 email: SignUpBloc.emailController.text,
                 password: SignUpBloc.passwordController.text);
             if (isOk) {

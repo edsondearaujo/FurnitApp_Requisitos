@@ -14,6 +14,8 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   bool displayError = false;
   bool displayCircularProgress = false;
 
+  SignInBloc signInBloc = SignInBloc();
+
   @override
   void initState() {
     super.initState();
@@ -110,7 +112,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                 displayCircularProgress =
                                     !displayCircularProgress;
                               });
-                              int response = await SignInBloc.signIn(
+                              int response = await signInBloc.signIn(
                                   email: SignInBloc.emailController.text,
                                   password: SignInBloc.passwordController.text);
 

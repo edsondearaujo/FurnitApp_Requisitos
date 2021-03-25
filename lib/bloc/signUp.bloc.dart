@@ -1,19 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:furnitapp/LoggedUser.dart';
+import 'package:furnitapp/models/user.dart';
 
 class SignUpBloc {
   static FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   static TextEditingController emailController = TextEditingController();
   static TextEditingController passwordController = TextEditingController();
 
-  static Future<bool> signup({@required String email, @required password}) async {
+  Future<bool> createUserDocument(
+      {@required Fuser fuser, @required User user}) async {
+    try {
+      await firestore.collection('users').add(
+          {'isAdmin': fuser.isAdmin, 'email': fuser.email, 'id': user.uid});
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<bool> signup({@required String email, @required password}) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      Fuser fuser =
+          Fuser(email: email, isAdmin: false, id: userCredential.user.uid);
+      await createUserDocument(fuser: fuser, user: userCredential.user);
+
+      DocumentSnapshot documentSnapshot = await firestore
+          .collection('users')
+          .doc(userCredential.user.uid)
+          .get();
+
+      LoggedUser.fuser = Fuser.fromDocument(documentSnapshot);
+      LoggedUser.user = userCredential.user;
+
       return true;
     } catch (error) {
-      print(error);
       return false;
     }
   }
