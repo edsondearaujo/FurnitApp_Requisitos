@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:furnitapp/constants.dart';
 
 import 'form_fields.dart';
-import 'signin_buttons.dart';
+import 'SignUp_button.dart';
 
-class SignIn extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
+class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   @override
@@ -29,6 +30,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          backgroundColor: kPrimaryColor,
           centerTitle: true,
           title: Text('Cadastro de usuário'),
         ),
@@ -48,7 +50,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                 flex: 2,
                 child: Align(
                   alignment: Alignment.topCenter,
-                  child: SignInButton(),
+                  child: SignUpButton(),
                 ),
               ),
             ],
