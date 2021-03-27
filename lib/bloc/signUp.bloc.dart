@@ -14,8 +14,9 @@ class SignUpBloc {
   Future<bool> createUserDocument(
       {@required Fuser fuser, @required User user}) async {
     try {
-      await firestore.collection('users').add(
+      await firestore.collection('users').doc(user.uid).set(
           {'isAdmin': fuser.isAdmin, 'email': fuser.email, 'id': user.uid});
+
       return true;
     } catch (error) {
       return false;

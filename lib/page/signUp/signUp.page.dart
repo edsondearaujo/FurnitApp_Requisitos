@@ -40,6 +40,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
             children: [
               Spacer(),
               Expanded(
+                flex: 2,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: FormFieds(),
