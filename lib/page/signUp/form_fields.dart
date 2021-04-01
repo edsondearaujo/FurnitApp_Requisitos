@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furnitapp/bloc/signIn.bloc.dart';
-import 'package:furnitapp/page/signIn/signIn.page.dart';
+import 'package:furnitapp/bloc/signUp.bloc.dart';
 
 class FormFieds extends StatelessWidget {
   const FormFieds({
@@ -13,8 +12,8 @@ class FormFieds extends StatelessWidget {
       children: [
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: SignInBloc.validateEmail,
-          controller: SignInBloc.emailController,
+          validator: SignUpBloc.validateEmail,
+          controller: SignUpBloc.emailController,
           decoration:
               InputDecoration(hintText: 'email', border: OutlineInputBorder()),
         ),
@@ -23,8 +22,8 @@ class FormFieds extends StatelessWidget {
           child: TextFormField(
             obscureText: true,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: SignInBloc.validatePassword,
-            controller: SignInBloc.passwordController,
+            validator: SignUpBloc.validatePassword,
+            controller: SignUpBloc.passwordController,
             decoration: InputDecoration(
               hintText: 'senha',
               border: OutlineInputBorder(),
