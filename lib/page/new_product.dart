@@ -1,6 +1,9 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:furnitapp/models/Produto.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewProduct extends StatefulWidget {
   @override
@@ -13,11 +16,32 @@ class _NewProductState extends State<NewProduct> {
   TextEditingController _descricaoController = TextEditingController();
   TextEditingController _valorController = TextEditingController();
   TextEditingController _corController = TextEditingController();
+  File _image;
+  final picker = ImagePicker();
+  String fileName;
+  String url;
 
+  Future uploadImageToFirebase(BuildContext context) async {
+    fileName = _image.path.split('/').last;
+    fs.UploadTask task  = fs.FirebaseStorage.instance.ref('Produtos/$fileName').putFile(_image);
+    fs.TaskSnapshot snapshot = await task;
+    url = await fs.FirebaseStorage.instance.ref('Produtos/$fileName').getDownloadURL();
+  }
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null)
+        _image = File(pickedFile.path);
+      });
+    }
   String _value;
 
-  saveProduct() {
+  saveProduct() async {
     Produto produto = Produto();
+    await uploadImageToFirebase(context);
+    produto.urlImage = url;
     produto.codigo = _codigoController.text;
     produto.nome = _nomeController.text;
     produto.descricao = _descricaoController.text;
@@ -25,7 +49,7 @@ class _NewProductState extends State<NewProduct> {
     produto.valor = _valorController.text;
     produto.cor = _corController.text;
     produto.save();
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   @override
@@ -36,8 +60,24 @@ class _NewProductState extends State<NewProduct> {
       ),
       body: Form(
         child: ListView(
-         padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 15),
           children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                child: Container(
+                  width: 75,
+                  height: 75,
+                  margin: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      color: Colors.grey.withOpacity(0.4)
+                  ),
+                  child: _image == null ? Icon(Icons.add_a_photo) : Image.file(_image),
+                ),
+                onTap: getImage,
+              ),
+            ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Código'

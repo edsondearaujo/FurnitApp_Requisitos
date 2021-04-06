@@ -8,8 +8,7 @@ class Produto {
   var valor;
   var cor;
   var categoria;
-  var avatarImage;
-  List<String> urlImages;
+  var urlImage;
 
   Produto();
 
@@ -30,8 +29,7 @@ class Produto {
       "descricao": this.descricao,
       "valor": this.valor,
       "cor": this.cor,
-      "avatarImage": this.avatarImage,
-      "urlImages": this.urlImages
+      "urlImage": this.urlImage,
     };
     return map;
   }
