@@ -123,3 +123,4 @@ class _EstoqueState extends State<Estoque> {
           return Container();
         });
   }
+}
