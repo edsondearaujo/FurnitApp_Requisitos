@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/products_bloc.dart';
 import 'package:furnitapp/constants.dart';
+import 'package:furnitapp/models/Produto.dart';
+import 'package:furnitapp/page/signIn/signIn.page.dart';
 
 import 'category_list.dart';
 
@@ -40,6 +42,10 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       ),
       appBar: AppBar(
+        leading: TextButton(
+          child: Text('Sair'),
+          onPressed: () {},
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Colors.transparent,
@@ -54,7 +60,7 @@ class _ProductScreenState extends State<ProductScreen> {
           Expanded(
             child: FutureBuilder(
                 future: _productsBloc.getProductsList(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                builder: (context, AsyncSnapshot<List<Produto>> snapshot) {
                   return Stack(
                     children: [
                       Container(
@@ -67,10 +73,14 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                         ),
                       ),
-                      Container(child: ListView.builder(
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (context, index) => ProductCard(),),),
-                     
+                      Container(
+                        child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) => ProductCard(
+                            produto: snapshot.data[index],
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 }),
@@ -82,8 +92,11 @@ class _ProductScreenState extends State<ProductScreen> {
 }
 
 class ProductCard extends StatelessWidget {
+  final Produto produto;
+
   const ProductCard({
     Key key,
+    @required this.produto,
   }) : super(key: key);
 
   @override
@@ -116,8 +129,7 @@ class ProductCard extends StatelessWidget {
               decoration: BoxDecoration(shape: BoxShape.circle),
               height: 120,
               width: 200,
-              child: Image.network(
-                  'https://www.casasbahia-imagens.com.br/Control/ArquivoExibir.aspx?IdArquivo=1185423396'),
+              child: Image.network(this.produto.urlImage),
             ),
           ),
           Positioned(
@@ -134,7 +146,7 @@ class ProductCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                     child: Text(
-                      'Mesa 4 cadeiras marrom',
+                      this.produto.nome,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -144,11 +156,13 @@ class ProductCard extends StatelessWidget {
                         horizontal: kDefaultPadding * 1.5,
                         vertical: kDefaultPadding / 4),
                     decoration: BoxDecoration(
-                        color: kSecondaryColor,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(22),
-                            topRight: Radius.circular(22))),
-                    child: Text('\$458,99'),
+                      color: kSecondaryColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(22),
+                        topRight: Radius.circular(22),
+                      ),
+                    ),
+                    child: Text(this.produto.valor),
                   )
                 ],
               ),
