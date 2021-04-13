@@ -14,4 +14,6 @@ class Fuser {
         isAdmin: document.data()['isAdmin'], 
         email: document.data()['email'],);
   }
+
+  
 }

@@ -1,0 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:furnitapp/models/Produto.dart';
+
+class ProductsBloc {
+  Future<List<Produto>> getProductsList() async {
+    List<Produto> _produtos = [];
+    QuerySnapshot _querySnapshot =
+        await FirebaseFirestore.instance.collection('Produtos').get();
+    await Future.forEach(
+      _querySnapshot.docs,
+      (DocumentSnapshot documentSnpshot) => _produtos.add(
+        Produto(
+          id: documentSnpshot.id,
+          nome: documentSnpshot.data()['nome'],
+          urlImage: documentSnpshot.data()['urlImage'],
+          categoria: documentSnpshot.data()['categoria'],
+          codigo: documentSnpshot.data()['codigo'],
+          cor: documentSnpshot.data()['cor'],
+          descricao: documentSnpshot.data()['descricao'],
+          valor: documentSnpshot.data()['valor'],
+        ),
+      ),
+    );
+
+    return _produtos;
+  }
+}

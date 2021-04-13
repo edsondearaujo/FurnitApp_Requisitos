@@ -11,6 +11,10 @@ class SignInBloc {
   static TextEditingController emailController = TextEditingController();
   static TextEditingController passwordController = TextEditingController();
 
+  static Future<void> signOut() async {
+    await auth.signOut();
+  }
+
   static String validateEmail(String email) {
     bool hasMach = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")

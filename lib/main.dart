@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:furnitapp/page/signIn/signIn.page.dart';
-
-import 'page/signUp/signUp.page.dart';
+import 'package:furnitapp/page/showProducts/products_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +24,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              home: SignIn(),
+              home: ProductScreen(),
             );
           }
 

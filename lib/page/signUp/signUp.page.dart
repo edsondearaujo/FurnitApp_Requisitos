@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           centerTitle: true,
-          title: Text('Cadastro de usuário'),
+          title: Text('Crie uma conta'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),

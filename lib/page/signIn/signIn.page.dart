@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/signIn.bloc.dart';
+import 'package:furnitapp/bloc/signUp.bloc.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/page/home_page.dart';
 import 'package:furnitapp/page/signUp/signUp.page.dart';
@@ -32,7 +33,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: kPrimaryColor,
       body: Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
@@ -48,8 +49,8 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                     'Seja bem-vindo(a)!',
                     style: TextStyle(
                         fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                        color: kTextLightColor),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -60,10 +61,13 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: SignInBloc.validateEmail,
                       controller: SignInBloc.emailController,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         hintText: 'email',
                         border: OutlineInputBorder(),
                       ),
@@ -73,9 +77,12 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                     child: Column(
                       children: [
                         TextFormField(
+                          
                           obscureText: true,
                           controller: SignInBloc.passwordController,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             hintText: 'senha',
                             border: OutlineInputBorder(),
                           ),
@@ -160,7 +167,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                               padding: const EdgeInsets.symmetric(vertical: 40),
                               child: Text(
                                 'Cadastrar',
-                                style: TextStyle(color: kTextLightColor),
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
                           )

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class Produto {
   var id;
@@ -10,7 +11,7 @@ class Produto {
   var categoria;
   var urlImage;
 
-  Produto();
+  Produto({this.codigo, this.nome, this.descricao, this.valor, this.cor, this.categoria, this.urlImage, this.id});
 
   save() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
