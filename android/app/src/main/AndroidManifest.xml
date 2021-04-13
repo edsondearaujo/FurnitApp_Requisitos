@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.furnitapp">
+    package="com.lostonmars.furnitapp">
    <application
         android:label="furnitapp"
         android:icon="@mipmap/ic_launcher">

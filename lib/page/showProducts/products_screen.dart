@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:furnitapp/bloc/products_bloc.dart';
 import 'package:furnitapp/constants.dart';
 
 import 'category_list.dart';
@@ -9,8 +11,11 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  ProductsBloc _productsBloc;
+
   @override
   void initState() {
+    _productsBloc = ProductsBloc();
     super.initState();
   }
 
@@ -22,6 +27,18 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Container(
+          color: kPrimaryColor,
+          child: Column(
+            children: [
+              DrawerHeader(
+                child: Container(),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -35,21 +52,28 @@ class _ProductScreenState extends State<ProductScreen> {
             height: kDefaultPadding,
           ),
           Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 70),
-                  decoration: BoxDecoration(
-                    color: kBackgroundColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                  ),
-                ),
-                ProductCard()
-              ],
-            ),
+            child: FutureBuilder(
+                future: _productsBloc.getProductsList(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  return Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 70),
+                        decoration: BoxDecoration(
+                          color: kBackgroundColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40),
+                          ),
+                        ),
+                      ),
+                      Container(child: ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (context, index) => ProductCard(),),),
+                     
+                    ],
+                  );
+                }),
           )
         ],
       ),
@@ -109,15 +133,21 @@ class ProductCard extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    child: Text('Mesa 4 cadeiras marrom', style: TextStyle(fontWeight: FontWeight.bold),),
+                    child: Text(
+                      'Mesa 4 cadeiras marrom',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Spacer(),
                   Container(
-                    
                     padding: EdgeInsets.symmetric(
                         horizontal: kDefaultPadding * 1.5,
                         vertical: kDefaultPadding / 4),
-                    decoration: BoxDecoration(color: kSecondaryColor, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(22), topRight: Radius.circular(22))),
+                    decoration: BoxDecoration(
+                        color: kSecondaryColor,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(22),
+                            topRight: Radius.circular(22))),
                     child: Text('\$458,99'),
                   )
                 ],

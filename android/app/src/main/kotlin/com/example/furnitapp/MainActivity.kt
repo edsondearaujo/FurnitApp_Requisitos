@@ -1,4 +1,4 @@
-package com.example.furnitapp
+package com.lostonmars.furnitapp
 
 import io.flutter.embedding.android.FlutterActivity
 
