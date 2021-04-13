@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/signIn.bloc.dart';
+import 'package:furnitapp/bloc/signUp.bloc.dart';
 import 'package:furnitapp/page/home_page.dart';
 
 class SignInButton extends StatelessWidget {
+  SignUpBloc signUpBloc = SignUpBloc();
   
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class SignInButton extends StatelessWidget {
             color: Colors.red[900], borderRadius: BorderRadius.circular(10)),
         child: InkWell(
           onTap: () async {
-            bool isOk = await SignInBloc.signup(
+            bool isOk = await signUpBloc.signup(
                 email: SignInBloc.emailController.text,
                 password: SignInBloc.passwordController.text);
             if (isOk) {

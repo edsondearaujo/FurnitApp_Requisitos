@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/products_bloc.dart';
+import 'package:furnitapp/bloc/signIn.bloc.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/models/Produto.dart';
 import 'package:furnitapp/page/signIn/signIn.page.dart';
+import 'package:furnitapp/page/signUp/signUp.page.dart';
 
 import 'category_list.dart';
 
@@ -14,9 +16,11 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   ProductsBloc _productsBloc;
+  bool _displayLoading;
 
   @override
   void initState() {
+    _displayLoading = false;
     _productsBloc = ProductsBloc();
     super.initState();
   }
@@ -42,10 +46,26 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       ),
       appBar: AppBar(
-        leading: TextButton(
-          child: Text('Sair'),
-          onPressed: () {},
-        ),
+        actions: [
+          TextButton(
+            style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.white)),
+            child: Text('Sair'),
+            onPressed: () async {
+              setState(() {
+                _displayLoading = true;
+              });
+              await SignInBloc.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignIn(),
+                ),
+              );
+            },
+          )
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Colors.transparent,
