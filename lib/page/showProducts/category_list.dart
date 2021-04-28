@@ -1,13 +1,9 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:furnitapp/constants.dart';
 
 class CategoryList extends StatefulWidget {
-  const CategoryList({
-    Key key,
-  }) : super(key: key);
+  final ValueNotifier<String> selectedCategory;
+  const CategoryList({Key key, this.selectedCategory}) : super(key: key);
 
   @override
   _CategoryListState createState() => _CategoryListState();
@@ -15,7 +11,7 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   int selectedIndex = 0;
-  List categories = ['Todos', 'Sofa', 'Mesas', 'Cadeiras', 'Camas'];
+  List categories = ['Sala', 'Cozinha', 'Quarto'];
 
   @override
   void initState() {
@@ -39,6 +35,7 @@ class _CategoryListState extends State<CategoryList> {
           onTap: () {
             setState(() {
               selectedIndex = index;
+              widget.selectedCategory.value = categories[selectedIndex];
             });
           },
           child: Container(

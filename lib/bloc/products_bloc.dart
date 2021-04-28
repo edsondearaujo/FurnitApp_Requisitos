@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:furnitapp/models/Produto.dart';
 
 class ProductsBloc {
-  Future<List<Produto>> getProductsList() async {
+  Future<List<Produto>> getProductsList(String category) async {
     List<Produto> _produtos = [];
-    QuerySnapshot _querySnapshot =
-        await FirebaseFirestore.instance.collection('Produtos').get();
+    QuerySnapshot _querySnapshot = await FirebaseFirestore.instance
+        .collection('Produtos')
+        .where('categoria', isEqualTo: category)
+        .get();
     await Future.forEach(
       _querySnapshot.docs,
       (DocumentSnapshot documentSnpshot) => _produtos.add(
