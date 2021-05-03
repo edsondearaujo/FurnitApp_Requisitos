@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/products_bloc.dart';
 import 'package:furnitapp/bloc/signIn.bloc.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/models/Produto.dart';
 import 'package:furnitapp/page/signIn/signIn.page.dart';
-import 'package:furnitapp/page/signUp/signUp.page.dart';
 
 import 'category_list.dart';
 
@@ -17,11 +15,16 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   ProductsBloc _productsBloc;
   bool _displayLoading;
+  ValueNotifier<String> _selectedcategory;
 
   @override
   void initState() {
+    _selectedcategory = ValueNotifier('Sala');
     _displayLoading = false;
     _productsBloc = ProductsBloc();
+    _selectedcategory.addListener(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -71,42 +74,52 @@ class _ProductScreenState extends State<ProductScreen> {
         shadowColor: Colors.transparent,
       ),
       backgroundColor: kPrimaryColor,
-      body: Column(
-        children: [
-          CategoryList(),
-          SizedBox(
-            height: kDefaultPadding,
-          ),
-          Expanded(
-            child: FutureBuilder(
-                future: _productsBloc.getProductsList(),
-                builder: (context, AsyncSnapshot<List<Produto>> snapshot) {
-                  return Stack(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 70),
-                        decoration: BoxDecoration(
-                          color: kBackgroundColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) => ProductCard(
-                            produto: snapshot.data[index],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-          )
-        ],
-      ),
+      body: ValueListenableBuilder(
+          valueListenable: _selectedcategory,
+          builder: (context, selectedCategory, snapshot) {
+            
+            return Column(
+              children: [
+                CategoryList(selectedCategory: _selectedcategory,),
+                SizedBox(
+                  height: kDefaultPadding,
+                ),
+                Expanded(
+                  child: FutureBuilder(
+                      future: _productsBloc.getProductsList(selectedCategory),
+                      builder:
+                          (context, AsyncSnapshot<List<Produto>> snapshot) {
+                        if (!snapshot.hasData)
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        return Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 70),
+                              decoration: BoxDecoration(
+                                color: kBackgroundColor,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(40),
+                                  topRight: Radius.circular(40),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) => ProductCard(
+                                  produto: snapshot.data[index],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                )
+              ],
+            );
+          }),
     );
   }
 }

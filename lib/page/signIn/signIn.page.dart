@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/signIn.bloc.dart';
-import 'package:furnitapp/bloc/signUp.bloc.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/page/home_page.dart';
 import 'package:furnitapp/page/signUp/signUp.page.dart';
