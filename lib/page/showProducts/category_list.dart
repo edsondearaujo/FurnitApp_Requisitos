@@ -11,7 +11,7 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   int selectedIndex = 0;
-  List categories = ['Sala', 'Cozinha', 'Quarto'];
+  List categories = ['Tudo', 'Sala', 'Cozinha', 'Quarto'];
 
   @override
   void initState() {

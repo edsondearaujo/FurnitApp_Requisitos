@@ -86,7 +86,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
                 Expanded(
                   child: FutureBuilder(
-                      future: _productsBloc.getProductsList(selectedCategory),
+                      future: _productsBloc.getProductsList(category:selectedCategory),
                       builder:
                           (context, AsyncSnapshot<List<Produto>> snapshot) {
                         if (!snapshot.hasData)
@@ -195,7 +195,7 @@ class ProductCard extends StatelessWidget {
                         topRight: Radius.circular(22),
                       ),
                     ),
-                    child: Text(this.produto.valor),
+                    child: Text('R\$ ' + this.produto.valor.toString()),
                   )
                 ],
               ),

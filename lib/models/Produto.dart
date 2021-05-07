@@ -10,7 +10,15 @@ class Produto {
   var categoria;
   var urlImage;
 
-  Produto({this.codigo, this.nome, this.descricao, this.valor, this.cor, this.categoria, this.urlImage, this.id});
+  Produto(
+      {this.codigo,
+      this.nome,
+      this.descricao,
+      this.valor,
+      this.cor,
+      this.categoria,
+      this.urlImage,
+      this.id});
 
   save() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
