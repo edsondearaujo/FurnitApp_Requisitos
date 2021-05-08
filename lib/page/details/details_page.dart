@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/models/Produto.dart';
+import 'package:furnitapp/page/cart/cart_bloc.dart';
+import 'package:furnitapp/page/cart/cart_page.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   final Produto produto;
 
   const DetailsScreen({Key key, @required this.produto}) : super(key: key);
+
+  @override
+  _DetailsScreenState createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  bool checkProcutInCart() {
+    return CartBloc.selectedProducts.contains(widget.produto);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +31,18 @@ class DetailsScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              var response = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartPage(),
+                ),
+              );
+
+              if (response) {
+                setState(() {});
+              }
+            },
             icon: Icon(
               Icons.shopping_cart,
               color: Colors.grey,
@@ -42,15 +64,13 @@ class DetailsScreen extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(vertical: kDefaultPadding),
-                  height: _size.width * 0.8,
+                  height: _size.width * 0.6,
                   clipBehavior: Clip.hardEdge,
-                  width: _size.width * 0.8,
+                  width: _size.width * 0.6,
                   decoration: BoxDecoration(
                       color: Colors.white, shape: BoxShape.circle),
                   child: Image.network(
-                    produto.urlImage,
-                    height: _size.width * 0.9,
-                    width: _size.width * 0.9,
+                    widget.produto.urlImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -63,7 +83,7 @@ class DetailsScreen extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: Text(
-                      produto.nome,
+                      widget.produto.nome,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -75,7 +95,7 @@ class DetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
                     child: Text(
-                      'R\$ ' + produto.valor.toString(),
+                      'R\$ ' + widget.produto.valor.toString(),
                       style: TextStyle(
                           color: kSecondaryColor, fontWeight: FontWeight.bold),
                     ),
@@ -89,21 +109,43 @@ class DetailsScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (checkProcutInCart()) {
+                      setState(() {
+                        CartBloc.removeProduct = widget.produto;
+                      });
+                    } else {
+                      setState(() {
+                        CartBloc.addProduct = widget.produto;
+                      });
+                    }
+                  },
                   child: Container(
                     padding: EdgeInsets.all(22),
                     decoration: BoxDecoration(
-                      color: Colors.yellow[700],
+                      color: checkProcutInCart()
+                          ? Colors.green
+                          : Colors.yellow[700],
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Adicionar ao carrinho', style: TextStyle(color: Colors.white,),),
+                        Text(
+                          checkProcutInCart()
+                              ? 'Remover do carrinho'
+                              : 'Adicionar ao carrinho',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                         SizedBox(
                           width: 20,
                         ),
-                        Icon(Icons.shopping_cart, color: Colors.white,),
+                        Icon(
+                          Icons.shopping_cart,
+                          color: Colors.white,
+                        ),
                       ],
                     ),
                   ),
