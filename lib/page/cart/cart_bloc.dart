@@ -16,4 +16,12 @@ class CartBloc {
     _selectedProdutcs
         .removeWhere((produtoIndex) => produtoIndex.id == produto.id);
   }
+
+  static double get totalValueInCart {
+    double total = 0;
+    for (Produto produto in _selectedProdutcs) {
+      total += double.parse(produto.valor);
+    }
+    return total;
+  }
 }

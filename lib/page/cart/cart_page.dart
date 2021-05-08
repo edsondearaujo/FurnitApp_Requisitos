@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furnitapp/constants.dart';
+import 'package:furnitapp/page/buy/buy_page.dart';
 import 'package:furnitapp/page/cart/cart_bloc.dart';
 
 class CartPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _CartPageState extends State<CartPage> {
         backgroundColor: kBackgroundColor,
         elevation: 0,
         leading: BackButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context, true);
           },
           color: Colors.grey,
@@ -78,7 +79,9 @@ class _CartPageState extends State<CartPage> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => BuyPage()));
+                  },
                   child: Container(
                     padding: EdgeInsets.all(22),
                     decoration: BoxDecoration(
@@ -91,7 +94,7 @@ class _CartPageState extends State<CartPage> {
                         Text(
                           'Comprar',
                           style: TextStyle(
-                            color: _cartIsNotEmpty ? Colors.grey : Colors.white,
+                            color: _cartIsNotEmpty ? Colors.white : Colors.grey,
                           ),
                         ),
                         SizedBox(
@@ -99,7 +102,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                         Icon(
                           Icons.credit_card,
-                          color: _cartIsNotEmpty ? Colors.grey : Colors.white,
+                          color: _cartIsNotEmpty ? Colors.white : Colors.grey,
                         ),
                       ],
                     ),

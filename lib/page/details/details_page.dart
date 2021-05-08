@@ -69,6 +69,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   width: _size.width * 0.6,
                   decoration: BoxDecoration(
                       color: Colors.white, shape: BoxShape.circle),
+                      
                   child: Image.network(
                     widget.produto.urlImage,
                     fit: BoxFit.cover,
@@ -83,9 +84,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: Text(
+
                       widget.produto.nome,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[700]),
                     ),
                   ),
                 ),
@@ -98,6 +100,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       'R\$ ' + widget.produto.valor.toString(),
                       style: TextStyle(
                           color: kSecondaryColor, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: Text(
+                      widget.produto.descricao,
+                      style: TextStyle(
+                          color: Colors.grey[700], fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

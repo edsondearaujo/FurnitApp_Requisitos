@@ -38,25 +38,13 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Container(
-          color: kPrimaryColor,
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Container(),
-              ),
-            ],
-          ),
-        ),
-      ),
       appBar: AppBar(
         actions: [
           TextButton(
             style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.white)),
-            child: Text('Sair'),
+            child: Text('Sair', style: TextStyle(color: Colors.grey[300]),),
             onPressed: () async {
               setState(() {
                 _displayLoading = true;

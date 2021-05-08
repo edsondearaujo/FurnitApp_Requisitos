@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:furnitapp/page/cart/cart_page.dart';
+import 'package:furnitapp/page/buy/buy_page.dart';
 import 'package:furnitapp/page/showProducts/products_screen.dart';
 
 void main() {
