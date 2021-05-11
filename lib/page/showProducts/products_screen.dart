@@ -3,6 +3,8 @@ import 'package:furnitapp/bloc/products_bloc.dart';
 import 'package:furnitapp/bloc/signIn.bloc.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/models/Produto.dart';
+import 'package:furnitapp/page/details/details_page.dart';
+import 'package:furnitapp/page/showProducts/product_card.dart';
 import 'package:furnitapp/page/signIn/signIn.page.dart';
 
 import 'category_list.dart';
@@ -36,25 +38,13 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Container(
-          color: kPrimaryColor,
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Container(),
-              ),
-            ],
-          ),
-        ),
-      ),
       appBar: AppBar(
         actions: [
           TextButton(
             style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.white)),
-            child: Text('Sair'),
+            child: Text('Sair', style: TextStyle(color: Colors.grey[300]),),
             onPressed: () async {
               setState(() {
                 _displayLoading = true;
@@ -77,16 +67,18 @@ class _ProductScreenState extends State<ProductScreen> {
       body: ValueListenableBuilder(
           valueListenable: _selectedcategory,
           builder: (context, selectedCategory, snapshot) {
-            
             return Column(
               children: [
-                CategoryList(selectedCategory: _selectedcategory,),
+                CategoryList(
+                  selectedCategory: _selectedcategory,
+                ),
                 SizedBox(
                   height: kDefaultPadding,
                 ),
                 Expanded(
                   child: FutureBuilder(
-                      future: _productsBloc.getProductsList(selectedCategory),
+                      future: _productsBloc.getProductsList(
+                          category: selectedCategory),
                       builder:
                           (context, AsyncSnapshot<List<Produto>> snapshot) {
                         if (!snapshot.hasData)
@@ -110,6 +102,16 @@ class _ProductScreenState extends State<ProductScreen> {
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (context, index) => ProductCard(
                                   produto: snapshot.data[index],
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailsScreen(
+                                          produto: snapshot.data[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -120,89 +122,6 @@ class _ProductScreenState extends State<ProductScreen> {
               ],
             );
           }),
-    );
-  }
-}
-
-class ProductCard extends StatelessWidget {
-  final Produto produto;
-
-  const ProductCard({
-    Key key,
-    @required this.produto,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 160,
-      margin: EdgeInsets.symmetric(
-          horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: 136,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
-                boxShadow: [kDefaultShadow],
-                color: kBlueColor),
-            child: Container(
-              margin: EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(22)),
-            ),
-          ),
-          Positioned(
-            top: 30,
-            right: 0,
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              decoration: BoxDecoration(shape: BoxShape.circle),
-              height: 120,
-              width: 200,
-              child: Image.network(this.produto.urlImage),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: SizedBox(
-              height: 136,
-              width: MediaQuery.of(context).size.width - 200,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Spacer(),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    child: Text(
-                      this.produto.nome,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: kDefaultPadding * 1.5,
-                        vertical: kDefaultPadding / 4),
-                    decoration: BoxDecoration(
-                      color: kSecondaryColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(22),
-                        topRight: Radius.circular(22),
-                      ),
-                    ),
-                    child: Text(this.produto.valor),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
