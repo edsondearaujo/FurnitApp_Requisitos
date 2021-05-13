@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:furnitapp/LoggedUser.dart';
 import 'package:furnitapp/bloc/products_bloc.dart';
 import 'package:furnitapp/bloc/signIn.bloc.dart';
 import 'package:furnitapp/constants.dart';
 import 'package:furnitapp/models/Produto.dart';
 import 'package:furnitapp/page/details/details_page.dart';
+import 'package:furnitapp/page/new_product.dart';
+import 'package:furnitapp/page/productsList_page.dart';
 import 'package:furnitapp/page/showProducts/product_card.dart';
 import 'package:furnitapp/page/signIn/signIn.page.dart';
+import 'package:furnitapp/page/signUp/signUp.page.dart';
 
 import 'category_list.dart';
 
@@ -18,6 +22,7 @@ class _ProductScreenState extends State<ProductScreen> {
   ProductsBloc _productsBloc;
   bool _displayLoading;
   ValueNotifier<String> _selectedcategory;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -38,24 +43,79 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Container(
+          color: kPrimaryColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DrawerHeader(
+                child: Container(),
+              ),
+              TextButton(
+                style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewProduct(),
+                    ),
+                  );
+                },
+                child: Text('Adicionar produtos'),
+              ),
+              TextButton(
+                style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Estoque(),
+                    ),
+                  );
+                },
+                child: Text('Lista de produtos'),
+              )
+            ],
+          ),
+        ),
+      ),
+      key: _scaffoldKey,
       appBar: AppBar(
+        leading: LoggedUser.user != null && LoggedUser.fuser.isAdmin
+            ? IconButton(
+                onPressed: () {
+                  _scaffoldKey.currentState.openDrawer();
+                },
+                icon: Icon(Icons.menu),
+              )
+            : Container(),
         actions: [
           TextButton(
             style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.white)),
-            child: Text('Sair', style: TextStyle(color: Colors.grey[300]),),
+            child: Text(
+              LoggedUser.user == null ? 'Entrar' : 'Sair',
+              style: TextStyle(color: Colors.grey[300]),
+            ),
             onPressed: () async {
               setState(() {
                 _displayLoading = true;
               });
-              await SignInBloc.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SignIn(),
-                ),
-              );
+              if (LoggedUser.user == null) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => SignIn()));
+              } else {
+                await SignInBloc.signOut();
+                setState(() {
+                 LoggedUser.user = null;
+                });
+              }
             },
           )
         ],

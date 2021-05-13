@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:furnitapp/bloc/signUp.bloc.dart';
 import 'package:furnitapp/constants.dart';
-import 'package:furnitapp/page/home_page.dart';
+import 'package:furnitapp/page/showProducts/products_screen.dart';
 
 class SignUpButton extends StatelessWidget {
   final SignUpBloc signUpBloc = SignUpBloc();
@@ -24,7 +24,7 @@ class SignUpButton extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(),
+                  builder: (context) => ProductScreen(),
                 ),
               );
             }
